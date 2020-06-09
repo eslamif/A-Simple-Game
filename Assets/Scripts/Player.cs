@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    [SerializeField] private Game game;
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float jumpSpeed = 20f;
 
     private Rigidbody rb;
     private Vector3 inputVector;
     private bool jump = false;
+    private Game game;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+        game = GameObject.FindObjectOfType<Game>();
     }
 
     void Update() {
