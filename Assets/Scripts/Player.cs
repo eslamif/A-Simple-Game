@@ -66,6 +66,7 @@ public class Player : MonoBehaviour {
                 break;
 
             case "Goal":
+                other.GetComponent<Goal>().CheckForCompletion(coinsCollected);
                 break;
 
             default:
