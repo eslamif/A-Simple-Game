@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float jumpSpeed = 20f;
     [SerializeField] private TMPro.TextMeshProUGUI coinsCollectedText;
+    private GameObject sword;
 
     private Rigidbody rb;
     private Vector3 inputVector;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody>();
         game = GameObject.FindObjectOfType<Game>();
+        sword = transform.GetChild(0).gameObject;
         coinsCollected = 0;
     }
 
@@ -29,10 +31,17 @@ public class Player : MonoBehaviour {
     }
     
     private void GetInput() {
+        //Move
         inputVector = new Vector3(Input.GetAxis("Horizontal") * movementSpeed, rb.velocity.y, Input.GetAxis("Vertical") * movementSpeed);
 
+        //Jump
         if (Input.GetButtonDown("Jump")) {
             jump = true;
+        }
+
+        //Attack
+        if (Input.GetButtonDown("SwordAttack")) {
+            SwordAttack();
         }
     }
 
@@ -52,6 +61,12 @@ public class Player : MonoBehaviour {
         float distance = GetComponent<Collider>().bounds.extents.y + 0.01f;
         Ray ray = new Ray(transform.position, Vector3.down);
         return Physics.Raycast(ray, distance);
+    }
+
+    private void SwordAttack() {
+        if (!sword.activeSelf) {
+            sword.SetActive(true);
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
