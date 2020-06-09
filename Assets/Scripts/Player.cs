@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+    [SerializeField] private Game game;
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float jumpSpeed = 20f;
 
@@ -43,5 +44,11 @@ public class Player : MonoBehaviour {
         float distance = GetComponent<Collider>().bounds.extents.y + 0.01f;
         Ray ray = new Ray(transform.position, Vector3.down);
         return Physics.Raycast(ray, distance);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Enemy")) {
+            game.ReloadCurrentScene();
+        }
     }
 }

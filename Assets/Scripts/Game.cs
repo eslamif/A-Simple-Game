@@ -18,13 +18,13 @@ public class Game : MonoBehaviour {
     }
 
     public void ReloadCurrentScene() {
-        LoadScene("Level-" + currentScene);
+        LoadScene("Scene-" + currentScene);
     }
 
     public void LoadNextScene() {
         if (!lastScene) {
 
-            string sceneName = "Level-" + nextScene;
+            string sceneName = "Scene-" + nextScene;
             LoadScene(sceneName);
         }
     }
