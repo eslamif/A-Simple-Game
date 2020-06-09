@@ -5,15 +5,18 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float jumpSpeed = 20f;
+    [SerializeField] private TMPro.TextMeshProUGUI coinsCollectedText;
 
     private Rigidbody rb;
     private Vector3 inputVector;
     private bool jump = false;
     private Game game;
+    private int coinsCollected;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
         game = GameObject.FindObjectOfType<Game>();
+        coinsCollected = 0;
     }
 
     void Update() {
@@ -50,6 +53,23 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
             game.ReloadCurrentScene();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+
+        switch (other.tag) {
+            case "Coin":
+                coinsCollected++;
+                coinsCollectedText.text = string.Format("Coins\n{0}", coinsCollected);
+                Destroy(other.gameObject);
+                break;
+
+            case "Goal":
+                break;
+
+            default:
+                break;
         }
     }
 }
