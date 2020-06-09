@@ -20,27 +20,31 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        Move();
-        Jump();
+        GetInput();
     }
 
     private void FixedUpdate() {
-        rb.velocity = inputVector;
+        Move();
+        Jump();
+    }
+    
+    private void GetInput() {
+        inputVector = new Vector3(Input.GetAxis("Horizontal") * movementSpeed, rb.velocity.y, Input.GetAxis("Vertical") * movementSpeed);
 
-        if (jump && isGrounded()) {
-            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-            jump = false;
+        if (Input.GetButtonDown("Jump")) {
+            jump = true;
         }
     }
 
     private void Move() {
-        inputVector = new Vector3(Input.GetAxis("Horizontal") * movementSpeed, rb.velocity.y, Input.GetAxis("Vertical") * movementSpeed);
         transform.LookAt(transform.position + new Vector3(inputVector.x, 0, inputVector.z));
+        rb.velocity = inputVector;
     }
 
     private void Jump() {
-        if (Input.GetButtonDown("Jump")) {
-            jump = true;
+        if (jump && isGrounded()) {
+            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            jump = false;
         }
     }
 
