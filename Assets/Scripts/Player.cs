@@ -15,12 +15,8 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        inputVector = new Vector3(Input.GetAxis("Horizontal") * movementSpeed, rb.velocity.y, Input.GetAxis("Vertical") * movementSpeed);
-        transform.LookAt(transform.position + new Vector3(inputVector.x, 0, inputVector.z));
-
-        if (Input.GetButtonDown("Jump")) {
-            jump = true;
-        }
+        Move();
+        Jump();
     }
 
     private void FixedUpdate() {
@@ -29,6 +25,17 @@ public class Player : MonoBehaviour {
         if (jump && isGrounded()) {
             rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
             jump = false;
+        }
+    }
+
+    private void Move() {
+        inputVector = new Vector3(Input.GetAxis("Horizontal") * movementSpeed, rb.velocity.y, Input.GetAxis("Vertical") * movementSpeed);
+        transform.LookAt(transform.position + new Vector3(inputVector.x, 0, inputVector.z));
+    }
+
+    private void Jump() {
+        if (Input.GetButtonDown("Jump")) {
+            jump = true;
         }
     }
 
